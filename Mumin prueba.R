@@ -1,15 +1,15 @@
 
 # SCRIPT PARA PROBAR MANEJO DE INFERENCIA MULTIMODELO
 
-rm(list=ls())
-ls()
+# rm(list=ls())
+# ls()
 
 # Datos tomados de 
 # https://sites.google.com/site/rforfishandwildlifegrads/home/mumin_usage_examples
 
 # Establezcan el directorio de trabajo con setwd()
-setwd("D:/Bibliotecas/Documentos/Institucional/Univ TdF/Estadistica Avanzada")
-dater<-read.csv("D:/Bibliotecas/Documentos/Institucional/Univ TdF/Estadistica Avanzada/Example data.csv",header=TRUE)
+# setwd("D:/Bibliotecas/Documentos/Institucional/Univ TdF/Estadistica Avanzada")
+dater<-read.csv("Example data.csv",header=TRUE)
 # Los datos incluyen 3 variables de respuesta: 
 # conteo, densidad y presencia 
 # y 5 variables explicativas: elevación, pendiente (slope), 
@@ -22,7 +22,10 @@ summary(dater)
 
 # Cargar el paquete MUMIn 
 
-require(MuMIn)
+if(!require(MuMIn)){
+  install.packages("MuMIn", repos="http://R-Forge.R-project.org")
+  library(MuMIn)
+}
 
 # Una cosa muy importante que se debe hacer a continuación es 
 # cambiar las opciones globales de cómo las funciones R manejan
@@ -30,7 +33,7 @@ require(MuMIn)
 # no funcionará si faltan datos. Esto es necesario si utiliza la
 # función "dredge" para el análisis exploratorio de datos. 
 # change na. action 
-options(na.action = "na.fail") 
+op <- options(na.action = "na.fail") 
 
 # Estamos listos para comenzar. Postulemos cuatro modelos candidatos 
 # que explican la variación en la densidad animal. Lo ideal sería
@@ -257,3 +260,4 @@ MA.estsDR$msTable
 confint(MA.estsDR,level=0.95)
 
 
+options(op)
